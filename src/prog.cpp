@@ -71,6 +71,9 @@ void Prog::mainloop()
         lights[0].move(m_cam->pos());
         lights[0].spotlight_rotate(m_cam->front());
 
+        m->move(glm::vec3(0.f, 0.f, -.05f));
+        m->rotate(glm::radians(2.f), glm::vec3(.5f, 1.f, .5f));
+
         glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

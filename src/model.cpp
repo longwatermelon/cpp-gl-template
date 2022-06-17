@@ -26,7 +26,7 @@ Model::Model(glm::vec3 pos, const std::string &path)
     m_translation = glm::mat4(1.f);
     m_rotation = glm::mat4(1.f);
 
-    move(m_pos);
+    move(pos);
 }
 
 
@@ -46,7 +46,7 @@ void Model::render(RenderInfo *ri)
 
 void Model::move(glm::vec3 dir)
 {
-//    m_translation = glm::translate(m_translation, dir);
+    m_translation = glm::translate(m_translation, dir);
     m_pos += dir;
 }
 
