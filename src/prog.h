@@ -1,5 +1,7 @@
 #pragma once
 #include "render.h"
+#include "camera.h"
+#include <memory>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -14,5 +16,7 @@ public:
 private:
     GLFWwindow *m_win;
     RenderInfo m_ri;
+
+    std::unique_ptr<Camera> m_cam;
 };
 
