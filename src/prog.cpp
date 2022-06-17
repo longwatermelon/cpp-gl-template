@@ -1,14 +1,20 @@
 #include "prog.h"
+#include "shader.h"
+#include <glm/ext/matrix_clip_space.hpp>
 
 
 Prog::Prog(GLFWwindow *w)
     : m_win(w)
 {
+    m_ri.shader = shader_create("shaders/basic_v.glsl", "shaders/basic_f_diffuse.glsl");
+    m_ri.view = glm::mat4(1.f);
+    glm::perspective(glm::radians(45.f), 800.f / 600.f, .1f, 100.f);
 }
 
 
 Prog::~Prog()
 {
+    glDeleteShader(m_ri.shader);
 }
 
 
