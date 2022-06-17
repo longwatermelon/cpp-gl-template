@@ -1,29 +1,5 @@
-/* #ifndef CAMERA_H */
-/* #define CAMERA_H */
-
-/* #include <cglm/cglm.h> */
-
-/* struct Camera */
-/* { */
-/*     vec3 pos, rot; */
-
-/*     vec3 front, up, right; */
-/* }; */
-
-/* struct Camera *cam_alloc(vec3 pos, vec3 rot); */
-/* void cam_free(struct Camera *c); */
-
-/* void cam_rot(struct Camera *c, vec3 rot); */
-/* void cam_update_vectors(struct Camera *c); */
-
-/* void cam_set_props(struct Camera *c, unsigned int shader); */
-
-/* #endif */
-
-
 #pragma once
 #include <glm/glm.hpp>
-
 
 class Camera
 {
@@ -31,6 +7,7 @@ public:
     Camera(glm::vec3 pos, glm::vec3 rot);
     ~Camera();
 
+    void move(glm::vec3 dir);
     void rotate(glm::vec3 rot);
     void update_vectors();
 

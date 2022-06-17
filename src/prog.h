@@ -12,6 +12,7 @@ public:
     ~Prog();
 
     void mainloop();
+    void events();
 
 private:
     GLFWwindow *m_win;

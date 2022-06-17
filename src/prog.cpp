@@ -53,6 +53,8 @@ void Prog::mainloop()
 
     while (!glfwWindowShouldClose(m_win))
     {
+        events();
+
         glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -67,5 +69,38 @@ void Prog::mainloop()
         glfwSwapBuffers(m_win);
         glfwPollEvents();
     }
+}
+
+
+void Prog::events()
+{
+    float move = .05f;
+    float rot = 2.f;
+
+    glm::vec3 front = m_cam->front() * move;
+    front[1] = 0.f;
+
+    glm::vec3 right = m_cam->right() * move;
+    right[1] = 0.f;
+
+    if (glfwGetKey(m_win, GLFW_KEY_W) == GLFW_PRESS) m_cam->move(front);
+    if (glfwGetKey(m_win, GLFW_KEY_S) == GLFW_PRESS) m_cam->move(-front);
+    if (glfwGetKey(m_win, GLFW_KEY_A) == GLFW_PRESS) m_cam->move(-right);
+    if (glfwGetKey(m_win, GLFW_KEY_D) == GLFW_PRESS) m_cam->move(right);
+
+    if (glfwGetKey(m_win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) m_cam->move(glm::vec3(0.f, -move, 0.f));
+    if (glfwGetKey(m_win, GLFW_KEY_SPACE) == GLFW_PRESS) m_cam->move(glm::vec3(0.f, move, 0.f));
+
+    if (glfwGetKey(m_win, GLFW_KEY_LEFT) == GLFW_PRESS)
+        m_cam->rotate(glm::vec3(-rot, 0.f, 0.f));
+
+    if (glfwGetKey(m_win, GLFW_KEY_RIGHT) == GLFW_PRESS)
+        m_cam->rotate(glm::vec3(rot, 0.f, 0.f));
+
+    if (glfwGetKey(m_win, GLFW_KEY_UP) == GLFW_PRESS)
+        m_cam->rotate(glm::vec3(0.f, rot, 0.f));
+
+    if (glfwGetKey(m_win, GLFW_KEY_DOWN) == GLFW_PRESS)
+        m_cam->rotate(glm::vec3(0.f, -rot, 0.f));
 }
 

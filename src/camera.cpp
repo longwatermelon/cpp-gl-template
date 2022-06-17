@@ -17,6 +17,12 @@ Camera::~Camera()
 }
 
 
+void Camera::move(glm::vec3 dir)
+{
+    m_pos += dir;
+}
+
+
 void Camera::rotate(glm::vec3 rot)
 {
     m_rot += rot;
