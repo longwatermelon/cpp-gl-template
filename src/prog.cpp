@@ -16,7 +16,6 @@ Prog::Prog(GLFWwindow *w)
     m_ri.proj = glm::perspective(glm::radians(45.f), 800.f / 600.f, .1f, 100.f);
 
     m_cam = std::make_unique<Camera>(glm::vec3(0.f, 0.f, 5.f), glm::vec3(glm::radians(-90.f), 0.f, 0.f));
-    std::cout << m_cam->front().x << ' ' << m_cam->front().y << ' ' << m_cam->front().z << "\n";
 
     stbi_set_flip_vertically_on_load(true);
 }
@@ -47,7 +46,6 @@ void Prog::mainloop()
     };
 
     std::unique_ptr<Model> m = std::make_unique<Model>(glm::vec3(0.f, 0.f, 0.f), "res/backpack/backpack.obj");
-    std::cout << "Loaded model\n";
 
     glEnable(GL_DEPTH_TEST);
 
