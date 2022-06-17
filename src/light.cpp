@@ -14,6 +14,18 @@ Light::~Light()
 }
 
 
+void Light::move(glm::vec3 dest)
+{
+    m_pos = dest;
+}
+
+
+void Light::spotlight_rotate(glm::vec3 rot)
+{
+    m_spotlight_dir = rot;
+}
+
+
 void Light::set_props(unsigned int shader, int idx)
 {
     std::string begin = "lights[" + std::to_string(idx) + "].";

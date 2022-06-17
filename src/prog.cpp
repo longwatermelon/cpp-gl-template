@@ -51,9 +51,25 @@ void Prog::mainloop()
 
     glEnable(GL_DEPTH_TEST);
 
+    glfwSetCursorPos(m_win, 400.f, 300.f);
+    glfwSetInputMode(m_win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    double prev_mx, prev_my;
+    glfwGetCursorPos(m_win, &prev_mx, &prev_my);
+
     while (!glfwWindowShouldClose(m_win))
     {
         events();
+
+        double mx, my;
+        glfwGetCursorPos(m_win, &mx, &my);
+        m_cam->rotate(glm::vec3((mx - prev_mx) / 100.f, -(my - prev_my) / 100.f, 0.f));
+
+        prev_mx = mx;
+        prev_my = my;
+
+        lights[0].move(m_cam->pos());
+        lights[0].spotlight_rotate(m_cam->front());
 
         glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
