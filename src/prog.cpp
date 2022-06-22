@@ -93,7 +93,6 @@ void Prog::mainloop()
 void Prog::events()
 {
     float move = .05f;
-    float rot = 2.f;
 
     glm::vec3 front = m_cam.front() * move;
     front[1] = 0.f;
@@ -108,17 +107,5 @@ void Prog::events()
 
     if (glfwGetKey(m_win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) m_cam.move(glm::vec3(0.f, -move, 0.f));
     if (glfwGetKey(m_win, GLFW_KEY_SPACE) == GLFW_PRESS) m_cam.move(glm::vec3(0.f, move, 0.f));
-
-    if (glfwGetKey(m_win, GLFW_KEY_LEFT) == GLFW_PRESS)
-        m_cam.rotate(glm::vec3(-rot, 0.f, 0.f));
-
-    if (glfwGetKey(m_win, GLFW_KEY_RIGHT) == GLFW_PRESS)
-        m_cam.rotate(glm::vec3(rot, 0.f, 0.f));
-
-    if (glfwGetKey(m_win, GLFW_KEY_UP) == GLFW_PRESS)
-        m_cam.rotate(glm::vec3(0.f, rot, 0.f));
-
-    if (glfwGetKey(m_win, GLFW_KEY_DOWN) == GLFW_PRESS)
-        m_cam.rotate(glm::vec3(0.f, -rot, 0.f));
 }
 
