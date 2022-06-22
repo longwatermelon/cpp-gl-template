@@ -30,6 +30,10 @@ Mesh::Mesh(const std::vector<Vertex> &verts, const std::vector<unsigned int> &in
     // tex
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tex_coords));
     glEnableVertexAttribArray(2);
+
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 
@@ -69,8 +73,8 @@ void Mesh::render(RenderInfo &ri, glm::mat4 model)
 
     glBindVertexArray(m_vao);
     glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
 
+    glBindVertexArray(0);
     glActiveTexture(GL_TEXTURE0);
 }
 
