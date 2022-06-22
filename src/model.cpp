@@ -1,6 +1,7 @@
 #include "model.h"
 #include <filesystem>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -9,7 +10,7 @@
 namespace fs = std::filesystem;
 
 
-Model::Model(glm::vec3 pos, const std::string &path)
+Model::Model(glm::vec3 pos, glm::vec3 rot, const std::string &path)
     : m_dir(fs::path(path).parent_path())
 {
     Assimp::Importer im;
@@ -27,6 +28,7 @@ Model::Model(glm::vec3 pos, const std::string &path)
     m_rotation = glm::mat4(1.f);
 
     move(pos);
+    rotate(rot);
 }
 
 
@@ -48,12 +50,24 @@ void Model::move(glm::vec3 dir)
 {
     m_translation = glm::translate(m_translation, dir);
     m_pos += dir;
+
+    for (auto &m : m_meshes)
+        m->update_pos(m_pos);
 }
 
 
-void Model::rotate(float rad, glm::vec3 axis)
+void Model::rotate(glm::vec3 rot)
 {
-    m_rotation = glm::rotate(m_rotation, rad, axis);
+    m_rot += rot;
+
+    glm::quat yaw(glm::vec3(0.f, m_rot.y, 0.f));
+    glm::quat pitch(glm::vec3(0.f, 0.f, m_rot.z));
+    glm::quat quat = glm::normalize(yaw * pitch);
+
+    m_rotation = glm::mat4_cast(quat);
+
+    for (auto &m : m_meshes)
+        m->update_rot(m_rot);
 }
 
 

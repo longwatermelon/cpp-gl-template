@@ -43,7 +43,7 @@ void Prog::mainloop()
         ), Attenuation(1.f, .09f, .032f))
     };
 
-    Model m(glm::vec3(5.f, 0.f, 0.f), "res/backpack/backpack.obj");
+    Model m(glm::vec3(5.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 0.f), "res/backpack/backpack.obj");
 
     glEnable(GL_DEPTH_TEST);
 
@@ -68,7 +68,7 @@ void Prog::mainloop()
         lights[0].spotlight_rotate(m_cam.front());
 
         /* m.move(glm::vec3(0.f, 0.f, -.05f)); */
-        /* m.rotate(glm::radians(2.f), glm::vec3(.5f, 1.f, .5f)); */
+        /* m.rotate(glm::vec3(0.f, .01f, .01f)); */
 
         glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

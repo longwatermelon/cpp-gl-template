@@ -20,7 +20,12 @@ public:
 
     void render(RenderInfo &ri, glm::mat4 model);
 
+    void update_pos(glm::vec3 pos) { m_pos = pos; }
+    void update_rot(glm::vec3 rot) { m_rot = rot; }
+
 private:
+    glm::vec3 m_pos = glm::vec3(0.f, 0.f, 0.f), m_rot = glm::vec3(0.f, 0.f, 0.f);
+
     std::vector<Vertex> m_verts;
     std::vector<unsigned int> m_indices;
     std::vector<Texture*> m_textures;
