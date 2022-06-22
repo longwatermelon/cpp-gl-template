@@ -1,4 +1,5 @@
 #include "model.h"
+#include "util.h"
 #include <filesystem>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
@@ -60,11 +61,7 @@ void Model::rotate(glm::vec3 rot)
 {
     m_rot += rot;
 
-    glm::quat yaw(glm::vec3(0.f, m_rot.y, 0.f));
-    glm::quat pitch(glm::vec3(0.f, 0.f, m_rot.z));
-    glm::quat quat = glm::normalize(yaw * pitch);
-
-    m_rotation = glm::mat4_cast(quat);
+    m_rotation = glm::mat4_cast(util::quat_from_rot(m_rot));
 
     for (auto &m : m_meshes)
         m->update_rot(m_rot);

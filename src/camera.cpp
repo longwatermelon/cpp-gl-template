@@ -1,5 +1,6 @@
 #include "camera.h"
 #include "shader.h"
+#include "util.h"
 #include <string>
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -41,12 +42,9 @@ void Camera::rotate(glm::vec3 rot)
 
 void Camera::update_vectors()
 {
-    glm::quat yaw(glm::vec3(0.f, m_rot.y, 0.f));
-    glm::quat pitch(glm::vec3(0.f, 0.f, m_rot.z));
-    glm::quat quat = glm::normalize(yaw * pitch);
+    glm::quat quat = util::quat_from_rot(m_rot);
 
     glm::vec3 front = quat * glm::vec3(1.f, 0.f, 0.f);
-
     glm::vec3 right = glm::cross(front, quat * glm::vec3(0.f, 1.f, 0.f));
     glm::vec3 up = glm::cross(right, front);
 

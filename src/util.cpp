@@ -18,3 +18,11 @@ std::string util::read_file(const char *path)
     return ss.str();
 }
 
+
+glm::quat util::quat_from_rot(glm::vec3 rot)
+{
+    glm::quat yaw(glm::vec3(0.f, rot.y, 0.f));
+    glm::quat pitch(glm::vec3(0.f, 0.f, rot.z));
+    return glm::normalize(yaw * pitch);
+}
+
