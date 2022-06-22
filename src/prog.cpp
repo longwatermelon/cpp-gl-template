@@ -1,6 +1,5 @@
 #include "prog.h"
 #include "light.h"
-#include "model.h"
 #include <vector>
 #include <iostream>
 #include <glm/ext/matrix_clip_space.hpp>
@@ -16,8 +15,6 @@ Prog::Prog(GLFWwindow *w)
 
     m_ri.proj = glm::perspective(glm::radians(45.f), 800.f / 600.f, .1f, 100.f);
     m_ri.cam = &m_cam;
-
-    stbi_set_flip_vertically_on_load(true);
 }
 
 
@@ -29,24 +26,6 @@ Prog::~Prog()
 
 void Prog::mainloop()
 {
-    std::vector<Light> lights = {
-        Light(glm::vec3(3.f, -1.f, 5.f), Phong(
-            glm::vec3(.2f, .2f, .2f),
-            glm::vec3(.5f, .5f, .5f),
-            glm::vec3(1.f, 1.f, 1.f)
-        ), Attenuation(1.f, .09f, .032f)).make_spotlight(
-            glm::vec3(0.f, 0.f, -1.f),
-            cosf(glm::radians(14.5f)), cosf(glm::radians(20.5f))
-        ),
-        Light(glm::vec3(3.f, -1.f, 5.f), Phong(
-            glm::vec3(.2f, .2f, .2f),
-            glm::vec3(.5f, .5f, .5f),
-            glm::vec3(1.f, 1.f, 1.f)
-        ), Attenuation(1.f, .09f, .032f))
-    };
-
-    Model m(glm::vec3(5.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 0.f), "res/backpack/backpack.obj");
-
     glEnable(GL_DEPTH_TEST);
 
     glfwSetCursorPos(m_win, 400.f, 300.f);
@@ -54,6 +33,27 @@ void Prog::mainloop()
 
     double prev_mx, prev_my;
     glfwGetCursorPos(m_win, &prev_mx, &prev_my);
+
+    float verts[] = {
+        2.f, -1.f, 0.f,
+        2.f, 0.f, 0.f,
+        2.f, 0.f, 1.f
+    };
+
+    unsigned int vao, vb;
+    glGenVertexArrays(1, &vao);
+    glGenBuffers(1, &vb);
+
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ARRAY_BUFFER, vb);
+
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+    glEnableVertexAttribArray(0);
+
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     while (!glfwWindowShouldClose(m_win))
     {
@@ -66,12 +66,6 @@ void Prog::mainloop()
         prev_mx = mx;
         prev_my = my;
 
-        lights[0].move(m_cam.pos());
-        lights[0].spotlight_rotate(m_cam.front());
-
-        /* m.move(glm::vec3(0.f, 0.f, -.05f)); */
-        /* m.rotate(glm::vec3(0.f, .01f, .01f)); */
-
         glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -79,14 +73,20 @@ void Prog::mainloop()
 
         m_cam.set_props(m_ri);
 
-        for (size_t i = 0; i < lights.size(); ++i)
-            lights[i].set_props(m_ri, i);
+        glm::mat4 model(1.f);
+        shader_mat4(m_ri.shader, std::string("model"), &model[0][0]);
+        shader_mat4(m_ri.shader, std::string("projection"), &m_ri.proj[0][0]);
+        shader_mat4(m_ri.shader, std::string("view"), &m_cam.view()[0][0]);
 
-        m.render(m_ri);
+        glBindVertexArray(vao);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(m_win);
         glfwPollEvents();
     }
+
+    glDeleteBuffers(1, &vb);
+    glDeleteVertexArrays(1, &vao);
 }
 
 
