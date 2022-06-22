@@ -11,7 +11,9 @@
 Prog::Prog(GLFWwindow *w)
     : m_win(w), m_cam(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 0.f))
 {
-    m_ri.shader = shader_create("shaders/basic_v.glsl", "shaders/basic_f.glsl");
+    m_ri.add_shader("basic");
+    m_ri.use_shader("basic");
+
     m_ri.proj = glm::perspective(glm::radians(45.f), 800.f / 600.f, .1f, 100.f);
     m_ri.cam = &m_cam;
 
@@ -21,7 +23,7 @@ Prog::Prog(GLFWwindow *w)
 
 Prog::~Prog()
 {
-    glDeleteShader(m_ri.shader);
+    m_ri.clear_shaders();
 }
 
 
@@ -73,10 +75,12 @@ void Prog::mainloop()
         glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        m_cam.set_props(m_ri.shader);
+        m_ri.use_shader("basic");
+
+        m_cam.set_props(m_ri);
 
         for (size_t i = 0; i < lights.size(); ++i)
-            lights[i].set_props(m_ri.shader, i);
+            lights[i].set_props(m_ri, i);
 
         m.render(m_ri);
 

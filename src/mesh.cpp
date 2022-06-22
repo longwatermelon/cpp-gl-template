@@ -1,4 +1,5 @@
 #include "mesh.h"
+#include "camera.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "render.h"
 #include "texture.h"
 #include <glm/glm.hpp>
 
@@ -34,7 +35,7 @@ public:
     void move(glm::vec3 dest);
     void spotlight_rotate(glm::vec3 rot);
 
-    void set_props(unsigned int shader, int idx);
+    void set_props(RenderInfo &ri, int idx);
 
     Light &make_spotlight(glm::vec3 dir, float cutoff, float outer_cutoff);
 

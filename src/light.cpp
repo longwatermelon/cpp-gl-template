@@ -26,26 +26,26 @@ void Light::spotlight_rotate(glm::vec3 rot)
 }
 
 
-void Light::set_props(unsigned int shader, int idx)
+void Light::set_props(RenderInfo &ri, int idx)
 {
     std::string begin = "lights[" + std::to_string(idx) + "].";
 
     // base parameters
-    shader_int(shader, (begin + "type"), (int)m_type);
-    shader_vec3(shader, (begin + "position"), m_pos);
-    shader_vec3(shader, (begin + "ambient"), m_col.ambient);
-    shader_vec3(shader, (begin + "diffuse"), m_col.diffuse);
-    shader_vec3(shader, (begin + "specular"), m_col.specular);
-    shader_float(shader, (begin + "constant"), m_att.constant);
-    shader_float(shader, (begin + "linear"), m_att.linear);
-    shader_float(shader, (begin + "quadratic"), m_att.quadratic);
+    shader_int(ri.shader, (begin + "type"), (int)m_type);
+    shader_vec3(ri.shader, (begin + "position"), m_pos);
+    shader_vec3(ri.shader, (begin + "ambient"), m_col.ambient);
+    shader_vec3(ri.shader, (begin + "diffuse"), m_col.diffuse);
+    shader_vec3(ri.shader, (begin + "specular"), m_col.specular);
+    shader_float(ri.shader, (begin + "constant"), m_att.constant);
+    shader_float(ri.shader, (begin + "linear"), m_att.linear);
+    shader_float(ri.shader, (begin + "quadratic"), m_att.quadratic);
 
     // spotlight
     if (m_type == LightType::SPOTLIGHT)
     {
-        shader_vec3(shader, (begin + "spotlight_dir"), m_spotlight_dir);
-        shader_float(shader, (begin + "spotlight_cutoff"), m_spotlight_cutoff);
-        shader_float(shader, (begin + "spotlight_outer_cutoff"), m_spotlight_outer_cutoff);
+        shader_vec3(ri.shader, (begin + "spotlight_dir"), m_spotlight_dir);
+        shader_float(ri.shader, (begin + "spotlight_cutoff"), m_spotlight_cutoff);
+        shader_float(ri.shader, (begin + "spotlight_outer_cutoff"), m_spotlight_outer_cutoff);
     }
 }
 

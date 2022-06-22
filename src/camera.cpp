@@ -56,9 +56,9 @@ void Camera::update_vectors()
 }
 
 
-void Camera::set_props(unsigned int shader)
+void Camera::set_props(RenderInfo &ri)
 {
-    shader_vec3(shader, std::string("viewPos"), m_pos);
+    shader_vec3(ri.shader, std::string("viewPos"), m_pos);
 }
 
 
