@@ -8,7 +8,7 @@ public:
     Model(glm::vec3 pos, const std::string &path);
     ~Model();
 
-    void render(RenderInfo *ri);
+    void render(RenderInfo &ri);
 
     void move(glm::vec3 dir);
     void rotate(float rad, glm::vec3 axis);

@@ -35,7 +35,7 @@ Model::~Model()
 }
 
 
-void Model::render(RenderInfo *ri)
+void Model::render(RenderInfo &ri)
 {
     glm::mat4 model = m_translation * m_rotation;
 
